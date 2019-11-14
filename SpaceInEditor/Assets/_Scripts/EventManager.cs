@@ -24,7 +24,7 @@ namespace UnityStandardAssets.Vehicles.Car
             {
                 Debug.Log(playerCar.transform.position.x.ToString());                
                 time_since_last_update = 0.0f;
-
+                // Test for functioning of gitignore
             }
             
         }
