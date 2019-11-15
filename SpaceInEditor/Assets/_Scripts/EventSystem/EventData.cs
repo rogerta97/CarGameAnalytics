@@ -8,6 +8,7 @@ public enum CarEventType
     EVENT_POSITION,
     EVENT_HIT,
     EVENT_ROUND,
+    EVENT_NULL
 }
 
 public struct EventData

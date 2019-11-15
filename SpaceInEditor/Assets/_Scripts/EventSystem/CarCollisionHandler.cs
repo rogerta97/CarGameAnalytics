@@ -15,35 +15,39 @@ public class CarCollisionHandler : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         EventData newEventData;
-
-        newEventData.personID = "Test";
-        newEventData.sessionID = 0;
-        newEventData.round = 0;
        
-        newEventData.time = 0;
-        newEventData.posX = 0;
-        newEventData.posY = 0;
-        newEventData.posZ = 0;
-
-        newEventData.rotX = 0;
-        newEventData.rotY = 0;
-        newEventData.rotZ = 0;
-        newEventData.rotW = 0;
-
-        newEventData.velocityX = 0;
-        newEventData.velocityY = 0;
-        newEventData.velocityZ = 0;
-
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             newEventData.eventType = CarEventType.EVENT_HIT;
-            EventBroadcaster.Instance.SendEventData(newEventData);
+         
         }
         else if (collision.gameObject.CompareTag("Round"))
         {
-            newEventData.eventType = CarEventType.EVENT_ROUND;
-            EventBroadcaster.Instance.SendEventData(newEventData);
+            SessionController.Instance.AddRound(); 
+            newEventData.eventType = CarEventType.EVENT_ROUND;  
         }
+        else
+            newEventData.eventType = CarEventType.EVENT_NULL;
+
+        newEventData.personID = SessionController.Instance.GetPersonID(); 
+        newEventData.sessionID = SessionController.Instance.GetSessionID(); 
+        newEventData.round = SessionController.Instance.GetRounds(); 
+        newEventData.time = SessionController.Instance.GetSessionTime(); 
+
+        newEventData.posX = carController.gameObject.transform.position.x;
+        newEventData.posY = carController.gameObject.transform.position.y;
+        newEventData.posZ = carController.gameObject.transform.position.z;
+
+        newEventData.rotX = carController.gameObject.transform.rotation.x;
+        newEventData.rotY = carController.gameObject.transform.rotation.y;
+        newEventData.rotZ = carController.gameObject.transform.rotation.z;
+        newEventData.rotW = carController.gameObject.transform.rotation.w;
+
+        newEventData.velocityX = carController.gameObject.transform.rotation.x;
+        newEventData.velocityY = carController.gameObject.transform.rotation.y;
+        newEventData.velocityZ = carController.gameObject.transform.rotation.z;
+
+        EventBroadcaster.Instance.SendEventData(newEventData);
     }
 }
 

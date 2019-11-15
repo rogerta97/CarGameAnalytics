@@ -19,8 +19,8 @@ public class CSVWriteRead : MonoBehaviour
 
     void ReceiveEvent(EventData eventData)
     {
-        Debug.Log("Event Received bro");
-        Debug.Log(eventData.posX); 
+        Debug.Log("Event Received");
+        // Aqui ya haceis lo que tengais que hacer con eventData
     }
 
     // PersonID

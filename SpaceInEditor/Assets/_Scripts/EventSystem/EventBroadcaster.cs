@@ -28,10 +28,9 @@ public class EventBroadcaster : MonoBehaviour
     public void SendEventData(EventData eventData)
     {
          foreach(GameObject currentObject in objectsSubscribed)
-         {
-
+         { 
             currentObject.SendMessage("ReceiveEvent", eventData); 
-        }
+         }
     }
 }
 
