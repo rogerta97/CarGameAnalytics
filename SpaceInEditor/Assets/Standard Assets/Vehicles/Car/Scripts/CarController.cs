@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.Vehicles.Car
-{
+
     internal enum CarDriveType
     {
         FrontWheelDrive,
@@ -21,7 +20,7 @@ namespace UnityStandardAssets.Vehicles.Car
         [SerializeField] private CarDriveType m_CarDriveType = CarDriveType.FourWheelDrive;
         [SerializeField] private WheelCollider[] m_WheelColliders = new WheelCollider[4];
         [SerializeField] private GameObject[] m_WheelMeshes = new GameObject[4];
-        [SerializeField] private WheelEffects[] m_WheelEffects = new WheelEffects[4];
+        [SerializeField] private UnityStandardAssets.Vehicles.Car.WheelEffects[] m_WheelEffects = new UnityStandardAssets.Vehicles.Car.WheelEffects[4];
         [SerializeField] private Vector3 m_CentreOfMassOffset;
         [SerializeField] private float m_MaximumSteerAngle;
         [Range(0, 1)] [SerializeField] private float m_SteerHelper; // 0 is raw physics , 1 the car will grip in the direction it is facing
@@ -88,7 +87,6 @@ namespace UnityStandardAssets.Vehicles.Car
                 m_GearNum++;
             }
         }
-
 
         // simple function to add a curved bias towards 1 for a value in the 0-1 range
         private static float CurveFactor(float factor)
@@ -363,5 +361,14 @@ namespace UnityStandardAssets.Vehicles.Car
             }
             return false;
         }
+
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (collision.gameObject.CompareTag("Obstacle"))
+            {
+                
+            }
+        }
+
     }
-}
+

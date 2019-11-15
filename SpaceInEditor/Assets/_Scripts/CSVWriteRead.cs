@@ -17,6 +17,12 @@ public class CSVWriteRead : MonoBehaviour
         Save();
     }
 
+    void ReceiveEvent(EventData eventData)
+    {
+        Debug.Log("Event Received bro");
+        Debug.Log(eventData.posX); 
+    }
+
     // PersonID
     // SessionID
     // Round
