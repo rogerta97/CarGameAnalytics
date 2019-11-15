@@ -12,9 +12,30 @@ public class SessionController : MonoBehaviour
     int sessionID; 
     int rounds;
 
-    public EventData BuildEventData(CarController carController)
+    public EventData BuildEventData(CarController carController, CarEventType eventType, GameObject collisionGO = null)
     {
+        EventData newEventData;
 
+        newEventData.personID = Instance.GetPersonID();
+        newEventData.sessionID = Instance.GetSessionID();
+        newEventData.round = Instance.GetRounds();
+        newEventData.time = Instance.GetSessionTime();
+        newEventData.eventType = eventType;
+
+        newEventData.posX = carController.gameObject.transform.position.x;
+        newEventData.posY = carController.gameObject.transform.position.y;
+        newEventData.posZ = carController.gameObject.transform.position.z;
+
+        newEventData.rotX = carController.gameObject.transform.rotation.x;
+        newEventData.rotY = carController.gameObject.transform.rotation.y;
+        newEventData.rotZ = carController.gameObject.transform.rotation.z;
+        newEventData.rotW = carController.gameObject.transform.rotation.w;
+
+        newEventData.velocityX = carController.gameObject.transform.rotation.x;
+        newEventData.velocityY = carController.gameObject.transform.rotation.y;
+        newEventData.velocityZ = carController.gameObject.transform.rotation.z;
+
+        return newEventData; 
     }
 
     public static SessionController Instance
