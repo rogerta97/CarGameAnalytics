@@ -13,7 +13,7 @@ public class EventBroadcaster : MonoBehaviour
         {
             if (mInstance == null)
             {
-                GameObject go = new GameObject();
+                GameObject go = new GameObject("Event Broadcaster");
                 mInstance = go.AddComponent<EventBroadcaster>();
             }
             return mInstance;

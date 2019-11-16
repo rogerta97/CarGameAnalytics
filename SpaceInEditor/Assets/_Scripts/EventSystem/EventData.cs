@@ -5,10 +5,10 @@ using UnityEngine;
 
 public enum CarEventType
 {
-    EVENT_POSITION,
-    EVENT_HIT,
-    EVENT_ROUND,
-    EVENT_NULL
+    position,
+    hit,
+    round_end,
+    event_null
 }
 
 public struct EventData

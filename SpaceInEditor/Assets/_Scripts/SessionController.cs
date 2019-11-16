@@ -7,10 +7,13 @@ public class SessionController : MonoBehaviour
     static SessionController mInstance;
     private GameObject[] objectsSubscribed;
 
-    string personID;
-    float sessionTime;
-    int sessionID; 
-    int rounds;
+    public string personID;
+    public float sessionTime;
+    public float roundTime;
+    public int sessionID; 
+    public int rounds;
+
+    public bool welcomeUISeen; 
 
     public EventData BuildEventData(CarController carController, CarEventType eventType, GameObject collisionGO = null)
     {
@@ -44,44 +47,45 @@ public class SessionController : MonoBehaviour
         {
             if (mInstance == null)
             {
-                GameObject go = new GameObject();
+                GameObject go = new GameObject("Session Controller");
                 mInstance = go.AddComponent<SessionController>();
+                mInstance.welcomeUISeen = false; 
             }
             return mInstance;
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
-        sessionTime += Time.deltaTime;
+        mInstance.sessionTime += Time.deltaTime;
+        mInstance.roundTime += Time.deltaTime;
+    }
+
+    public void ResetTimer()
+    {
+        mInstance.roundTime = 0; 
     }
 
     public int GetSessionID()
     {
-        return sessionID; 
+        return mInstance.sessionID; 
     }
     public float GetSessionTime()
     {
-        return sessionTime;
+        return mInstance.sessionTime;
     }
     public string GetPersonID()
     {
-        return personID;
+        return mInstance.personID;
     }
     public int GetRounds()
     {
-        return rounds;
+        return mInstance.rounds;
     }
     public void AddRound()
     {
-        rounds++;
+        mInstance.rounds++;
     }
 }
 

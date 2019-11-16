@@ -19,18 +19,21 @@ public class CSVWriteRead : MonoBehaviour
 
     void ReceiveEvent(EventData eventData)
     {
-        Debug.Log("Event Received");
         // Aqui ya haceis lo que tengais que hacer con eventData
 
-        FieldInfo[] properties = eventData.GetType().GetFields();
+        Debug.Log(eventData.eventType);
+        Debug.Log(eventData.round);
+     
 
-        string[] rowDataTemp = new string[properties.Length];
+        //FieldInfo[] properties = eventData.GetType().GetFields();
 
-        int i = 0;
-        foreach(FieldInfo property in properties)
-            rowDataTemp[i++] = property.GetValue(eventData).ToString();
+        //string[] rowDataTemp = new string[properties.Length];
 
-        rowData.Add(rowDataTemp);
+        //int i = 0;
+        //foreach(FieldInfo property in properties)
+        //    rowDataTemp[i++] = property.GetValue(eventData).ToString();
+
+        //rowData.Add(rowDataTemp);
 
         Save();
     }
