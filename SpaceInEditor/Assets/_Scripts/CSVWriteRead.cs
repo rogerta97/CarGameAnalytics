@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System;
+using System.Reflection;
 
 public class CSVWriteRead : MonoBehaviour
 {
@@ -21,6 +22,10 @@ public class CSVWriteRead : MonoBehaviour
     {
         Debug.Log("Event Received");
         // Aqui ya haceis lo que tengais que hacer con eventData
+        const BindingFlags flags = /*BindingFlags.NonPublic | */BindingFlags.Public |
+            BindingFlags.Instance | BindingFlags.Static;
+
+        PropertyInfo[] properties = eventData.GetType().GetProperties(flags);
 
 
         Debug.Log(eventData.posX); 
