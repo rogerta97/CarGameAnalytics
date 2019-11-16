@@ -24,7 +24,6 @@ public class CSVWriteRead : MonoBehaviour
 
         FieldInfo[] properties = eventData.GetType().GetFields();
 
-
         string[] rowDataTemp = new string[properties.Length];
 
         int i = 0;
@@ -34,11 +33,6 @@ public class CSVWriteRead : MonoBehaviour
         rowData.Add(rowDataTemp);
 
         Save();
-
-
-        Debug.Log(eventData.posX);
-        Debug.Log(eventData.posY);
-        Debug.Log(eventData.posZ);
     }
 
     // PersonID
@@ -49,56 +43,8 @@ public class CSVWriteRead : MonoBehaviour
     // Pos(x,y,z)
     // Rot(x,y,z)
     // Vel(x,y,z)
-
-    private void Update()
-    {
-        if (Input.anyKey)
-        {
-            EventData data;
-            data.personID = "manolo";
-            data.sessionID = 1231;
-            data.round = 0;
-            data.eventType = CarEventType.EVENT_POSITION;
-            data.time = 0.4f;
-
-            data.posX = 12;
-            data.posY = 21;
-            data.posZ = 0;
-
-            data.rotX = 1;
-            data.rotY = 12;
-            data.rotZ = -1;
-            data.rotW = 34;
-
-            data.velocityX = 12;
-            data.velocityY = 90;
-            data.velocityZ = -9;
-
-            ReceiveEvent(data);
-
-
-        }
-    }
     void Save() {
 
-        //// You can add up the values in as many cells as you want.
-        //rowDataTemp = new string[14];
-        //rowDataTemp[0] = "lucasgm"; // PersonID
-        //rowDataTemp[1] = "0"; // SessionID
-        //rowDataTemp[2] = "0"; // Round   
-        //rowDataTemp[3] = "position"; // Event
-        //rowDataTemp[4] = "0.1"; // Time
-        //rowDataTemp[5] = "-612.6097219"; // Pos x
-        //rowDataTemp[6] = "-962.2563498"; // Pos y
-        //rowDataTemp[7] = "473.4372015"; // Pos z
-        //rowDataTemp[8] = "-74.54190497"; // Rot x
-        //rowDataTemp[9] = "-546.6404533"; // Rot y
-        //rowDataTemp[10] = "726.1006582"; // Rot z
-        //rowDataTemp[11] = "907.9773203"; // Vel x
-        //rowDataTemp[12] = "-795.352141"; // Vel y
-        //rowDataTemp[13] = "-589.1964209"; // Vel z     
-        //rowData.Add(rowDataTemp);
-        
         string[][] output = new string[rowData.Count][];
 
         for(int i = 0; i < output.Length; i++){
