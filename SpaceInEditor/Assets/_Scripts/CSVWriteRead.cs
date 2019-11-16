@@ -21,15 +21,15 @@ public class CSVWriteRead : MonoBehaviour
     {
         // Aqui ya haceis lo que tengais que hacer con eventData
 
-        //FieldInfo[] properties = eventData.GetType().GetFields();
+        FieldInfo[] properties = eventData.GetType().GetFields();
 
-        //string[] rowDataTemp = new string[properties.Length];
+        string[] rowDataTemp = new string[properties.Length];
 
-        //int i = 0;
-        //foreach(FieldInfo property in properties)
-        //    rowDataTemp[i++] = property.GetValue(eventData).ToString();
+        int i = 0;
+        foreach (FieldInfo property in properties)
+            rowDataTemp[i++] = property.GetValue(eventData).ToString();
 
-        //rowData.Add(rowDataTemp);
+        rowData.Add(rowDataTemp);
 
         Save();
     }
