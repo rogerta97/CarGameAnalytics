@@ -23,7 +23,7 @@ public class Goal : MonoBehaviour {
         {
             _finished = true;            
             StartCoroutine(ResetTag());
-            Debug.Log(_time);
+            SessionController.Instance.AddRound(); 
             _time = 0;
         }
     }

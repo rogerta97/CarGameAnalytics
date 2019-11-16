@@ -21,10 +21,6 @@ public class CSVWriteRead : MonoBehaviour
     {
         // Aqui ya haceis lo que tengais que hacer con eventData
 
-        Debug.Log(eventData.eventType);
-        Debug.Log(eventData.round);
-     
-
         //FieldInfo[] properties = eventData.GetType().GetFields();
 
         //string[] rowDataTemp = new string[properties.Length];

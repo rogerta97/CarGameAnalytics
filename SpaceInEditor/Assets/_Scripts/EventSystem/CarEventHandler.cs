@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class CarEventHandler : MonoBehaviour
 {
-    private CarController carController;
+    public CarController carController;
 
     private void Awake()
     {
-        carController = GetComponent<CarController>();
+      
     }
 
     private void Start()
@@ -25,6 +25,21 @@ public class CarEventHandler : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        EventData newEventData = new EventData();
+
+        if (other.gameObject.CompareTag("Round"))
+        {
+            SessionController.Instance.AddRound();
+            SessionController.Instance.ResetTimer();
+
+            newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.round_end);
+        }
+
+        EventBroadcaster.Instance.SendEventData(newEventData);
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         EventData newEventData = new EventData();
@@ -33,14 +48,7 @@ public class CarEventHandler : MonoBehaviour
         {
             newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.hit);
         }
-        else if (collision.gameObject.CompareTag("Round"))
-        {
-            SessionController.Instance.AddRound();
-            SessionController.Instance.ResetTimer(); 
 
-            newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.round_end);
-        }
-        
         EventBroadcaster.Instance.SendEventData(newEventData);
     }
 }
