@@ -27,7 +27,7 @@ public class CSVWriteRead : MonoBehaviour
 
         int i = 0;
         foreach (FieldInfo property in properties)
-            rowDataTemp[i++] = property.GetValue(eventData).ToString();
+            rowDataTemp[i++] = property.GetValue(eventData).ToString().Replace(',','.');
 
         rowData.Add(rowDataTemp);
 
