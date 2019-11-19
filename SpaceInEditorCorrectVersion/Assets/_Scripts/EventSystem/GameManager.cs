@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UI; 
 using UnityEngine;
 using UnityEngine.UI; 
 
@@ -15,7 +14,6 @@ public class GameManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    // Start is called before the first frame update
     public void GoGame()
     {
         SessionController.Instance.roundTime = 0;

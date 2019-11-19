@@ -23,7 +23,7 @@ public class Goal : MonoBehaviour {
         {
             _finished = true;            
             StartCoroutine(ResetTag());
-            Debug.Log(_time);
+            //Debug.Log(_time);
             _time = 0;
         }
     }
