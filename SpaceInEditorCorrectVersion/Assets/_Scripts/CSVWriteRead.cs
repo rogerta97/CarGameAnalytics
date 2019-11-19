@@ -6,32 +6,59 @@ using System.IO;
 using System;
 using System.Reflection;
 
+enum Table
+{
+    NullEvent,
+    PositionEvent,
+    SessionEvent,
+    HitEvent,
+    RoundEndEvent,
+    ErrorEvent
+}
 public class CSVWriteRead : MonoBehaviour
 {
-    private List<string[]> rowData = new List<string[]>();
+    Table currentWriteTable = Table.PositionEvent;
+    string[] paths = new string[5];
 
 
     // Use this for initialization
     void Start () {
-        // Creating First row of titles manually..
-        Save();
+
+        paths[(int)Table.PositionEvent - 1] = Application.dataPath + "/CSV/" + "PositionEvents.csv";
+        paths[(int)Table.SessionEvent - 1] = Application.dataPath + "/CSV/" + "SessionEvents.csv";
+        paths[(int)Table.HitEvent - 1] = Application.dataPath + "/CSV/" + "HitEvents.csv";
+        paths[(int)Table.RoundEndEvent - 1] = Application.dataPath + "/CSV/" + "RoundEndEvents.csv";
+        paths[(int)Table.ErrorEvent - 1] = Application.dataPath + "/CSV/" + "ErrorEvents.csv";
+
+
+        // Clear all the files
+        foreach (string path in paths)
+            File.Delete(path);
+
+        // TODO(Josep) : Add header to each table
+
     }
 
-    void ReceiveEvent(EventData eventData)
+    void ReceiveEvent(object eventData)
     {
-        // Aqui ya haceis lo que tengais que hacer con eventData
+        // Decide to which table write
 
+        if (eventData is PositionEventData)
+            currentWriteTable = Table.PositionEvent;
+        else if (eventData is SessionEventData)
+            currentWriteTable = Table.SessionEvent;
+
+
+        // Properties serialization
         FieldInfo[] properties = eventData.GetType().GetFields();
 
         string[] rowDataTemp = new string[properties.Length];
 
         int i = 0;
         foreach (FieldInfo property in properties)
-            rowDataTemp[i++] = property.GetValue(eventData).ToString().Replace(',','.');
+            rowDataTemp[i++] = property.GetValue(eventData).ToString().Replace(',', '.');
 
-        rowData.Add(rowDataTemp);
-
-        Save();
+        Save(rowDataTemp);
     }
 
     // PersonID
@@ -42,34 +69,18 @@ public class CSVWriteRead : MonoBehaviour
     // Pos(x,y,z)
     // Rot(x,y,z)
     // Vel(x,y,z)
-    void Save() {
+    void Save(string[] rowData) {
 
-        string[][] output = new string[rowData.Count][];
-
-        for(int i = 0; i < output.Length; i++){
-            output[i] = rowData[i];
-        }
-
-        int length = output.GetLength(0);
         string delimiter = ",";
-
-        StringBuilder sb = new StringBuilder();
-        
-        for (int index = 0; index < length; index++)
-            sb.AppendLine(string.Join(delimiter, output[index]));
-        
-        
         string filePath = getPath();
 
-        StreamWriter outStream = System.IO.File.CreateText(filePath);
-        outStream.WriteLine(sb);
-        outStream.Close();
+        File.AppendAllText(filePath, string.Join(delimiter, rowData) + ",\n");
     }
 
     // Following method is used to retrive the relative path as device platform
     private string getPath(){
         #if UNITY_EDITOR
-        return Application.dataPath +"/CSV/"+"Saved_data.csv";
+        return paths[(int)currentWriteTable - 1];
         #elif UNITY_ANDROID
         return Application.persistentDataPath+"Saved_data.csv";
         #elif UNITY_IPHONE
