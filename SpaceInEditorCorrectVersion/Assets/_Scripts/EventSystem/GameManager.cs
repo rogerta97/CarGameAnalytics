@@ -21,6 +21,6 @@ public class GameManager : MonoBehaviour
         SessionController.Instance.welcomeUISeen = true;
 
         SessionController.Instance.personID = personIDText.text;
-        SessionController.Instance.sessionID = Random.RandomRange(0, 9999999); 
+        SessionController.Instance.sessionID = Random.Range(0, 9999999); 
     }
 }

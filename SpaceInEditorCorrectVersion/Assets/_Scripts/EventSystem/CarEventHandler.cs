@@ -47,6 +47,7 @@ public class CarEventHandler : MonoBehaviour
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.hit);
+            Debug.Log("hit");
         }
 
         EventBroadcaster.Instance.SendEventData(newEventData);
