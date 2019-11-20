@@ -15,30 +15,78 @@ public class SessionController : MonoBehaviour
 
     public bool welcomeUISeen; 
 
-    public EventData BuildEventData(UnityStandardAssets.Vehicles.Car.CarController carController, CarEventType eventType, GameObject collisionGO = null)
+    public object BuildEventData(UnityStandardAssets.Vehicles.Car.CarController carController, CarEventType eventType, GameObject collisionGO = null)
     {
-        EventData newEventData;
+        //newEventData.personID = Instance.GetPersonID();
+        //newEventData.sessionID = Instance.GetSessionID();
+        //newEventData.round = Instance.GetRounds();
+        //newEventData.timeStamp = Instance.GetSessionTime();
+        //newEventData.eventType = eventType;
 
-        newEventData.personID = Instance.GetPersonID();
-        newEventData.sessionID = Instance.GetSessionID();
-        newEventData.round = Instance.GetRounds();
-        newEventData.time = Instance.GetSessionTime();
-        newEventData.eventType = eventType;
+        //newEventData.posX = carController.gameObject.transform.position.x;
+        //newEventData.posY = carController.gameObject.transform.position.y;
+        //newEventData.posZ = carController.gameObject.transform.position.z;
+        //
+        //newEventData.rotX = carController.gameObject.transform.rotation.x;
+        //newEventData.rotY = carController.gameObject.transform.rotation.y;
+        //newEventData.rotZ = carController.gameObject.transform.rotation.z;
+        //newEventData.rotW = carController.gameObject.transform.rotation.w;
+        //
+        //newEventData.velocityX = carController.gameObject.transform.rotation.x;
+        //newEventData.velocityY = carController.gameObject.transform.rotation.y;
+        //newEventData.velocityZ = carController.gameObject.transform.rotation.z;
 
-        newEventData.posX = carController.gameObject.transform.position.x;
-        newEventData.posY = carController.gameObject.transform.position.y;
-        newEventData.posZ = carController.gameObject.transform.position.z;
+        if (eventType == CarEventType.position)
+        {
+            PositionEventData newEventData;
 
-        newEventData.rotX = carController.gameObject.transform.rotation.x;
-        newEventData.rotY = carController.gameObject.transform.rotation.y;
-        newEventData.rotZ = carController.gameObject.transform.rotation.z;
-        newEventData.rotW = carController.gameObject.transform.rotation.w;
+            newEventData.sessionID = Instance.GetSessionID();
+            newEventData.round = Instance.GetRounds();
+            newEventData.timeStamp = Instance.GetSessionTime();
 
-        newEventData.velocityX = carController.gameObject.transform.rotation.x;
-        newEventData.velocityY = carController.gameObject.transform.rotation.y;
-        newEventData.velocityZ = carController.gameObject.transform.rotation.z;
+            newEventData.posX = carController.gameObject.transform.position.x;
+            newEventData.posY = carController.gameObject.transform.position.y;
+            newEventData.posZ = carController.gameObject.transform.position.z;
 
-        return newEventData; 
+            newEventData.rotX = carController.gameObject.transform.rotation.x;
+            newEventData.rotY = carController.gameObject.transform.rotation.y;
+            newEventData.rotZ = carController.gameObject.transform.rotation.z;
+            newEventData.rotW = carController.gameObject.transform.rotation.w;
+
+            newEventData.velocityX = carController.gameObject.transform.rotation.x;
+            newEventData.velocityY = carController.gameObject.transform.rotation.y;
+            newEventData.velocityZ = carController.gameObject.transform.rotation.z;
+
+            return newEventData;
+        }
+        else if (eventType == CarEventType.hit)
+        {
+            HitEvent newEventData;
+
+            newEventData.sessionID = Instance.GetSessionID();
+            newEventData.timeStamp = Instance.GetSessionTime();
+            newEventData.ObstacleID = 0; //TODO 
+
+            return newEventData;
+        }
+        else if (eventType == CarEventType.round_end)
+        {
+            RoundEndEvent newEventData;            
+            newEventData.sessionID = Instance.GetSessionID();
+            newEventData.round = Instance.GetRounds();
+            newEventData.timeStamp = Instance.GetSessionTime();
+            return newEventData;
+        }
+        else if (eventType == CarEventType.event_error)
+        {
+            ErrorEvent newEventData;
+            newEventData.sessionID = Instance.GetSessionID();
+            newEventData.timeStamp = Instance.GetSessionTime();
+            newEventData.type = ErrorType.None; //TODO
+            return newEventData;
+        }
+
+        return false;      
     }
 
     public static SessionController Instance
@@ -49,7 +97,7 @@ public class SessionController : MonoBehaviour
             {
                 GameObject go = new GameObject("Session Controller");
                 mInstance = go.AddComponent<SessionController>();
-                mInstance.welcomeUISeen = false; 
+                mInstance.welcomeUISeen = false;
             }
             return mInstance;
         }

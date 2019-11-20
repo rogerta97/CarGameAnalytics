@@ -6,6 +6,8 @@ public class CarEventHandler : MonoBehaviour
 {
     public UnityStandardAssets.Vehicles.Car.CarController carController;
 
+    private bool hasStarted = false;
+
     private void Awake()
     {
         
@@ -20,14 +22,14 @@ public class CarEventHandler : MonoBehaviour
     {
         if (SessionController.Instance.welcomeUISeen == true)
         {
-            EventData newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.position);
+            object newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.position);
             EventBroadcaster.Instance.SendEventData(newEventData);
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        EventData newEventData = new EventData();
+        object newEventData = new EventData();
 
         if (other.gameObject.CompareTag("Round"))
         {
@@ -42,10 +44,11 @@ public class CarEventHandler : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        EventData newEventData = new EventData();
+        object newEventData = new EventData();
 
         if (collision.gameObject.CompareTag("Obstacle"))
         {
+
             newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.hit);
         }
 

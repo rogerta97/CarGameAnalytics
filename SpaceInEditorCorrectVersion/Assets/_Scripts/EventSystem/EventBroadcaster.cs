@@ -25,7 +25,7 @@ public class EventBroadcaster : MonoBehaviour
         objectsSubscribed = GameObject.FindGameObjectsWithTag("Player");
     }
 
-    public void SendEventData(EventData eventData)
+    public void SendEventData(object eventData)
     {
          foreach(GameObject currentObject in objectsSubscribed)
          { 

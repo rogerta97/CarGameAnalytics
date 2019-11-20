@@ -36,7 +36,30 @@ public class CSVWriteRead : MonoBehaviour
             File.Delete(path);
 
         // TODO(Josep) : Add header to each table
+        // Position Event
+        currentWriteTable = Table.PositionEvent;
+        string[] RowHeadersPosition = { "SessionID", "Round", "TimeStamp", "PosX", "PosY", "PosZ", "RotX", "RotY", "RotZ", "RotW", "VelocityX", "VelocityY", "VelocityZ" };
+        Save(RowHeadersPosition);
 
+        // Session Event
+        currentWriteTable = Table.SessionEvent;
+        string[] RowHeadersSession = { "SessionID", "PersonID", "TimeStamp", "Session Event Type" };
+        Save(RowHeadersSession);
+
+        // Hit Event
+        currentWriteTable = Table.HitEvent;
+        string[] RowHeadersHit = { "SessionID", "TimeStamp", "ObstacleID" };
+        Save(RowHeadersHit);
+
+        // Round Event
+        currentWriteTable = Table.RoundEndEvent;
+        string[] RowHeadersRound = { "SessionID", "Round", "TimeStamp"};
+        Save(RowHeadersRound);
+
+        // Error Event
+        currentWriteTable = Table.ErrorEvent;
+        string[] RowHeadersError = { "SessionID", "TimeStamp", "Error Type" };
+        Save(RowHeadersError);
     }
 
     void ReceiveEvent(object eventData)
@@ -47,6 +70,13 @@ public class CSVWriteRead : MonoBehaviour
             currentWriteTable = Table.PositionEvent;
         else if (eventData is SessionEventData)
             currentWriteTable = Table.SessionEvent;
+        else if (eventData is HitEvent)
+            currentWriteTable = Table.HitEvent;
+        else if (eventData is RoundEndEvent)
+            currentWriteTable = Table.RoundEndEvent;
+        else if (eventData is ErrorEvent)
+            currentWriteTable = Table.ErrorEvent;
+
 
 
         // Properties serialization
