@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour {
 
+    public int ObstacleID; 
+
 	// Use this for initialization
 	void Start () {
 		

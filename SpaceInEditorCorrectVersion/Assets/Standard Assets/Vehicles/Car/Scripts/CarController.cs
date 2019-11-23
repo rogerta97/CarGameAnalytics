@@ -89,6 +89,13 @@ namespace UnityStandardAssets.Vehicles.Car
             }
         }
 
+        public void TeleportToPosition(Transform newTransform)
+        {
+            transform.position = newTransform.position;
+            transform.rotation = newTransform.rotation; 
+
+            GetComponent<Rigidbody>().velocity = Vector3.zero;
+        }
 
         // simple function to add a curved bias towards 1 for a value in the 0-1 range
         private static float CurveFactor(float factor)

@@ -5,6 +5,7 @@ using UnityEngine;
 public class CarEventHandler : MonoBehaviour
 {
     public UnityStandardAssets.Vehicles.Car.CarController carController;
+    public Transform carInitPosition; 
 
     private bool hasStarted = false;
 
@@ -27,6 +28,15 @@ public class CarEventHandler : MonoBehaviour
         }
     }
 
+    public void OnStuckButtonClicked()
+    {
+        SessionController.Instance.ResetTimer();
+        carController.TeleportToPosition(carInitPosition);
+
+        object newEventData = SessionController.Instance.BuildErrorEventData(carController, CarEventType.event_error, ErrorType.Stuck_in_Obstacle);
+        EventBroadcaster.Instance.SendEventData(newEventData);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         object newEventData = new EventData();
@@ -39,6 +49,14 @@ public class CarEventHandler : MonoBehaviour
             newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.round_end);
         }
 
+        if (other.gameObject.CompareTag("Fall"))
+        {          
+            SessionController.Instance.ResetTimer();
+            carController.TeleportToPosition(carInitPosition); 
+
+            newEventData = SessionController.Instance.BuildErrorEventData(carController, CarEventType.event_error, ErrorType.Fall_off_map);
+        }
+
         EventBroadcaster.Instance.SendEventData(newEventData);
     }
 
@@ -48,8 +66,7 @@ public class CarEventHandler : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Obstacle"))
         {
-
-            newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.hit);
+            newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.hit, collision.gameObject);
         }
 
         EventBroadcaster.Instance.SendEventData(newEventData);

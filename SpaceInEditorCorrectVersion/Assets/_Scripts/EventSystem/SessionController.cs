@@ -10,31 +10,45 @@ public class SessionController : MonoBehaviour
     public string personID;
     public float sessionTime;
     public float roundTime;
-    public int sessionID; 
+    public int sessionID;
     public int rounds;
 
-    public bool welcomeUISeen; 
+    public bool welcomeUISeen;
+
+    public object BuildErrorEventData(UnityStandardAssets.Vehicles.Car.CarController carController, CarEventType eventType, ErrorType errorType)
+    {
+         if (eventType == CarEventType.event_error)
+         {
+             ErrorEvent newEventData;
+             newEventData.sessionID = Instance.GetSessionID();
+             newEventData.timeStamp = Instance.GetSessionTime();
+             newEventData.type = errorType; 
+             return newEventData;
+         }
+
+        return false;
+    }
 
     public object BuildEventData(UnityStandardAssets.Vehicles.Car.CarController carController, CarEventType eventType, GameObject collisionGO = null)
     {
-        //newEventData.personID = Instance.GetPersonID();
-        //newEventData.sessionID = Instance.GetSessionID();
-        //newEventData.round = Instance.GetRounds();
-        //newEventData.timeStamp = Instance.GetSessionTime();
-        //newEventData.eventType = eventType;
+        /*newEventData.personID = Instance.GetPersonID();
+        newEventData.sessionID = Instance.GetSessionID();
+        newEventData.round = Instance.GetRounds();
+        newEventData.timeStamp = Instance.GetSessionTime();
+        newEventData.eventType = eventType;
 
-        //newEventData.posX = carController.gameObject.transform.position.x;
-        //newEventData.posY = carController.gameObject.transform.position.y;
-        //newEventData.posZ = carController.gameObject.transform.position.z;
-        //
-        //newEventData.rotX = carController.gameObject.transform.rotation.x;
-        //newEventData.rotY = carController.gameObject.transform.rotation.y;
-        //newEventData.rotZ = carController.gameObject.transform.rotation.z;
-        //newEventData.rotW = carController.gameObject.transform.rotation.w;
-        //
-        //newEventData.velocityX = carController.gameObject.transform.rotation.x;
-        //newEventData.velocityY = carController.gameObject.transform.rotation.y;
-        //newEventData.velocityZ = carController.gameObject.transform.rotation.z;
+        newEventData.posX = carController.gameObject.transform.position.x;
+        newEventData.posY = carController.gameObject.transform.position.y;
+        newEventData.posZ = carController.gameObject.transform.position.z;
+        
+        newEventData.rotX = carController.gameObject.transform.rotation.x;
+        newEventData.rotY = carController.gameObject.transform.rotation.y;
+        newEventData.rotZ = carController.gameObject.transform.rotation.z;
+        newEventData.rotW = carController.gameObject.transform.rotation.w;
+       
+        newEventData.velocityX = carController.gameObject.transform.rotation.x;
+        newEventData.velocityY = carController.gameObject.transform.rotation.y;
+        newEventData.velocityZ = carController.gameObject.transform.rotation.z;*/
 
         if (eventType == CarEventType.position)
         {
@@ -65,28 +79,20 @@ public class SessionController : MonoBehaviour
 
             newEventData.sessionID = Instance.GetSessionID();
             newEventData.timeStamp = Instance.GetSessionTime();
-            newEventData.ObstacleID = 0; //TODO 
+            newEventData.ObstacleID = collisionGO.GetComponent<Obstacle>().ObstacleID;
 
             return newEventData;
         }
         else if (eventType == CarEventType.round_end)
         {
-            RoundEndEvent newEventData;            
+            RoundEndEvent newEventData;
             newEventData.sessionID = Instance.GetSessionID();
             newEventData.round = Instance.GetRounds();
             newEventData.timeStamp = Instance.GetSessionTime();
             return newEventData;
         }
-        else if (eventType == CarEventType.event_error)
-        {
-            ErrorEvent newEventData;
-            newEventData.sessionID = Instance.GetSessionID();
-            newEventData.timeStamp = Instance.GetSessionTime();
-            newEventData.type = ErrorType.None; //TODO
-            return newEventData;
-        }
 
-        return false;      
+        return false;
     }
 
     public static SessionController Instance
@@ -112,12 +118,12 @@ public class SessionController : MonoBehaviour
 
     public void ResetTimer()
     {
-        mInstance.roundTime = 0; 
+        mInstance.roundTime = 0;
     }
 
     public int GetSessionID()
     {
-        return mInstance.sessionID; 
+        return mInstance.sessionID;
     }
     public float GetSessionTime()
     {

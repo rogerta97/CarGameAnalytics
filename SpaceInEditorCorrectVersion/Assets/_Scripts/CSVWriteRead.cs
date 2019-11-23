@@ -65,7 +65,6 @@ public class CSVWriteRead : MonoBehaviour
     void ReceiveEvent(object eventData)
     {
         // Decide to which table write
-
         if (eventData is PositionEventData)
             currentWriteTable = Table.PositionEvent;
         else if (eventData is SessionEventData)
@@ -76,8 +75,6 @@ public class CSVWriteRead : MonoBehaviour
             currentWriteTable = Table.RoundEndEvent;
         else if (eventData is ErrorEvent)
             currentWriteTable = Table.ErrorEvent;
-
-
 
         // Properties serialization
         FieldInfo[] properties = eventData.GetType().GetFields();
