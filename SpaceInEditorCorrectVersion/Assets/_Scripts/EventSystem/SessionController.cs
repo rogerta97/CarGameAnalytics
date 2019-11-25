@@ -15,18 +15,24 @@ public class SessionController : MonoBehaviour
 
     public bool welcomeUISeen;
 
-    public object BuildErrorEventData(UnityStandardAssets.Vehicles.Car.CarController carController, CarEventType eventType, ErrorType errorType)
+    public object BuildErrorEventData(ErrorType errorType)
     {
-         if (eventType == CarEventType.event_error)
-         {
-             ErrorEvent newEventData;
-             newEventData.sessionID = Instance.GetSessionID();
-             newEventData.timeStamp = Instance.GetSessionTime();
-             newEventData.type = errorType; 
-             return newEventData;
-         }
+        ErrorEvent newEventData;
+        newEventData.sessionID = Instance.GetSessionID();
+        newEventData.timeStamp = Instance.GetSessionTime();
+        newEventData.type = errorType; 
+        return newEventData;
+    }
 
-        return false;
+    public object BuildSessionEventData(int sessionEventType)
+    {
+        SessionEventData newEventData;
+        newEventData.sessionID = Instance.GetSessionID();
+        newEventData.personID = Instance.GetPersonID();
+        newEventData.sessionEventType = sessionEventType;
+        newEventData.timeStamp = Instance.GetSessionTime();
+
+        return newEventData;
     }
 
     public object BuildEventData(UnityStandardAssets.Vehicles.Car.CarController carController, CarEventType eventType, GameObject collisionGO = null)

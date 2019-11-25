@@ -33,7 +33,7 @@ public class CarEventHandler : MonoBehaviour
         SessionController.Instance.ResetTimer();
         carController.TeleportToPosition(carInitPosition);
 
-        object newEventData = SessionController.Instance.BuildErrorEventData(carController, CarEventType.event_error, ErrorType.Stuck_in_Obstacle);
+        object newEventData = SessionController.Instance.BuildErrorEventData(ErrorType.Stuck_in_Obstacle);
         EventBroadcaster.Instance.SendEventData(newEventData);
     }
 
@@ -54,7 +54,7 @@ public class CarEventHandler : MonoBehaviour
             SessionController.Instance.ResetTimer();
             carController.TeleportToPosition(carInitPosition); 
 
-            newEventData = SessionController.Instance.BuildErrorEventData(carController, CarEventType.event_error, ErrorType.Fall_off_map);
+            newEventData = SessionController.Instance.BuildErrorEventData(ErrorType.Fall_off_map);
         }
 
         EventBroadcaster.Instance.SendEventData(newEventData);

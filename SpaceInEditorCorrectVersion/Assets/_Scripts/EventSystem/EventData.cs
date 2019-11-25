@@ -15,6 +15,7 @@ public enum CarEventType
     round_end,
     event_null,
     session_start,
+    session_end,
     event_error
 }
 
