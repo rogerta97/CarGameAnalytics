@@ -36,24 +36,30 @@ public class CSVWriteRead : MonoBehaviour
 
         // TODO(Josep) : Add header to each table
         // Position Event
-        string[] RowHeadersPosition = { "SessionID", "Round", "TimeStamp", "PosX", "PosY", "PosZ", "RotX", "RotY", "RotZ", "RotW", "VelocityX", "VelocityY", "VelocityZ" };
-        Save(RowHeadersPosition, Table.PositionEvent);
-
+        if (!File.Exists(getPath(Table.PositionEvent))){
+            string[] RowHeadersPosition = { "SessionID", "Round", "TimeStamp", "PosX", "PosY", "PosZ", "RotX", "RotY", "RotZ", "RotW", "VelocityX", "VelocityY", "VelocityZ" };
+            Save(RowHeadersPosition, Table.PositionEvent);
+        }
         // Session Event
-        string[] RowHeadersSession = { "SessionID", "PersonID", "TimeStamp", "Session Event Type" };
-        Save(RowHeadersSession, Table.SessionEvent);
-
+        if (!File.Exists(getPath(Table.SessionEvent))){
+            string[] RowHeadersSession = { "SessionID", "PersonID", "TimeStamp", "Session Event Type" };
+            Save(RowHeadersSession, Table.SessionEvent);
+        }
         // Hit Event
-        string[] RowHeadersHit = { "SessionID", "TimeStamp", "ObstacleID" };
-        Save(RowHeadersHit, Table.HitEvent);
-
+        if (!File.Exists(getPath(Table.HitEvent))){
+            string[] RowHeadersHit = { "SessionID", "TimeStamp", "ObstacleID" };
+            Save(RowHeadersHit, Table.HitEvent);
+        }
         // Round Event
-        string[] RowHeadersRound = { "SessionID", "Round", "TimeStamp"};
-        Save(RowHeadersRound, Table.RoundEndEvent);
-
+        if (!File.Exists(getPath(Table.RoundEndEvent))){
+            string[] RowHeadersRound = { "SessionID", "Round", "TimeStamp" };
+            Save(RowHeadersRound, Table.RoundEndEvent);
+        }
         // Error Event
-        string[] RowHeadersError = { "SessionID", "TimeStamp", "Error Type" };
-        Save(RowHeadersError, Table.ErrorEvent);
+        if (!File.Exists(getPath(Table.ErrorEvent))){
+            string[] RowHeadersError = { "SessionID", "TimeStamp", "Error Type" };
+            Save(RowHeadersError, Table.ErrorEvent);
+        }
     }
 
     void ReceiveEvent(object eventData)
