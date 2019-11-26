@@ -10,6 +10,8 @@ public class CSVRead : MonoBehaviour
     public RoundEndEvent[] arrRoundEndEvents;
     public ErrorEvent[] arrErrorEvents;
 
+    public bool isFilled = false;
+
     //We are using a static object to control the memory we use
     static string[] lineData;
 
@@ -29,6 +31,8 @@ public class CSVRead : MonoBehaviour
         ReadRoundEndEvent();
         ReadErrorEvent();
 
+        isFilled = true;
+
         Debug.Log(arrErrorEvents.Length + " = ErrorEvents ");
         Debug.Log(arrPositionEvents.Length + " = PositionEvents ");
         Debug.Log(arrSesionEvents.Length + " = SessionEvents ");
@@ -42,7 +46,7 @@ public class CSVRead : MonoBehaviour
         string fileData = System.IO.File.ReadAllText(positionPath.ToString());
         string[] lines = fileData.Split("\n"[0]);
 
-        arrPositionEvents = new PositionEventData[lines.Length - 1]; //Unity "ReadAllText()" gets one extra row that has nothing, for some reason.
+        arrPositionEvents = new PositionEventData[lines.Length - 2]; //Unity "ReadAllText()" gets one extra row that has nothing, for some reason.
 
         for (int i = 1; i < lines.Length - 1; i++) //i = 1 instead of 0 because we want to skip the headers
         {
@@ -70,7 +74,7 @@ public class CSVRead : MonoBehaviour
         string fileData = System.IO.File.ReadAllText(positionPath.ToString());
         string[] lines = fileData.Split("\n"[0]);
 
-        arrSesionEvents = new SessionEventData[lines.Length - 1]; //Unity "ReadAllText()" gets one extra row that has nothing, for some reason.
+        arrSesionEvents = new SessionEventData[lines.Length - 2]; //Unity "ReadAllText()" gets one extra row that has nothing, for some reason.
         
         for (int i = 1; i < lines.Length - 1; i++) //i = 1 instead of 0 because we want to skip the headers
         {
@@ -89,7 +93,7 @@ public class CSVRead : MonoBehaviour
         string fileData = System.IO.File.ReadAllText(positionPath.ToString());
         string[] lines = fileData.Split("\n"[0]);
 
-        arrHitEvents = new HitEvent[lines.Length - 1]; //Unity "ReadAllText()" gets one extra row that has nothing, for some reason.
+        arrHitEvents = new HitEvent[lines.Length - 2]; //Unity "ReadAllText()" gets one extra row that has nothing, for some reason.
         
         for (int i = 1; i < lines.Length - 1; i++) //i = 1 instead of 0 because we want to skip the headers
         {
@@ -107,7 +111,7 @@ public class CSVRead : MonoBehaviour
         string fileData = System.IO.File.ReadAllText(positionPath.ToString());
         string[] lines = fileData.Split("\n"[0]);
 
-        arrRoundEndEvents = new RoundEndEvent[lines.Length - 1]; //Unity "ReadAllText()" gets one extra row that has nothing, for some reason.
+        arrRoundEndEvents = new RoundEndEvent[lines.Length - 2]; //Unity "ReadAllText()" gets one extra row that has nothing, for some reason.
         
         for (int i = 1; i < lines.Length - 1; i++) //i = 1 instead of 0 because we want to skip the headers
         {
@@ -125,7 +129,7 @@ public class CSVRead : MonoBehaviour
         string fileData = System.IO.File.ReadAllText(positionPath.ToString());
         string[] lines = fileData.Split("\n"[0]);
 
-        arrErrorEvents = new ErrorEvent[lines.Length - 1]; //Unity "ReadAllText()" gets one extra row that has nothing, for some reason.       
+        arrErrorEvents = new ErrorEvent[lines.Length - 2]; //Unity "ReadAllText()" gets one extra row that has nothing, for some reason.       
 
         for (int i = 1; i < lines.Length - 1; i++) //i = 1 instead of 0 because we want to skip the headers
         {
