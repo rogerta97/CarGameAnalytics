@@ -17,7 +17,6 @@ enum Table
 }
 public class CSVWriteRead : MonoBehaviour
 {
-    Table currentWriteTable = Table.PositionEvent;
     string[] paths = new string[5];
 
 
@@ -32,49 +31,36 @@ public class CSVWriteRead : MonoBehaviour
 
 
         // Clear all the files
-        foreach (string path in paths)
-            File.Delete(path);
+        //foreach (string path in paths)
+        //    File.Delete(path);
 
         // TODO(Josep) : Add header to each table
         // Position Event
-        currentWriteTable = Table.PositionEvent;
         string[] RowHeadersPosition = { "SessionID", "Round", "TimeStamp", "PosX", "PosY", "PosZ", "RotX", "RotY", "RotZ", "RotW", "VelocityX", "VelocityY", "VelocityZ" };
-        Save(RowHeadersPosition);
+        Save(RowHeadersPosition, Table.PositionEvent);
 
         // Session Event
-        currentWriteTable = Table.SessionEvent;
         string[] RowHeadersSession = { "SessionID", "PersonID", "TimeStamp", "Session Event Type" };
-        Save(RowHeadersSession);
+        Save(RowHeadersSession, Table.SessionEvent);
 
         // Hit Event
-        currentWriteTable = Table.HitEvent;
         string[] RowHeadersHit = { "SessionID", "TimeStamp", "ObstacleID" };
-        Save(RowHeadersHit);
+        Save(RowHeadersHit, Table.HitEvent);
 
         // Round Event
-        currentWriteTable = Table.RoundEndEvent;
         string[] RowHeadersRound = { "SessionID", "Round", "TimeStamp"};
-        Save(RowHeadersRound);
+        Save(RowHeadersRound, Table.RoundEndEvent);
 
         // Error Event
-        currentWriteTable = Table.ErrorEvent;
         string[] RowHeadersError = { "SessionID", "TimeStamp", "Error Type" };
-        Save(RowHeadersError);
+        Save(RowHeadersError, Table.ErrorEvent);
     }
 
     void ReceiveEvent(object eventData)
     {
         // Decide to which table write
-        if (eventData is PositionEventData)
-            currentWriteTable = Table.PositionEvent;
-        else if (eventData is SessionEventData)
-            currentWriteTable = Table.SessionEvent;
-        else if (eventData is HitEvent)
-            currentWriteTable = Table.HitEvent;
-        else if (eventData is RoundEndEvent)
-            currentWriteTable = Table.RoundEndEvent;
-        else if (eventData is ErrorEvent)
-            currentWriteTable = Table.ErrorEvent;
+
+       
 
         // Properties serialization
         FieldInfo[] properties = eventData.GetType().GetFields();
@@ -85,7 +71,24 @@ public class CSVWriteRead : MonoBehaviour
         foreach (FieldInfo property in properties)
             rowDataTemp[i++] = property.GetValue(eventData).ToString().Replace(',', '.');
 
-        Save(rowDataTemp);
+        Save(rowDataTemp, GetTable(eventData));
+    }
+
+    Table GetTable(object eventData)
+    {
+        //Table currentWriteTable = Table.NullEvent;
+        if (eventData is PositionEventData)
+            return Table.PositionEvent;
+        else if (eventData is SessionEventData)
+            return Table.SessionEvent;
+        else if (eventData is HitEvent)
+            return Table.HitEvent;
+        else if (eventData is RoundEndEvent)
+            return Table.RoundEndEvent;
+        else if (eventData is ErrorEvent)
+            return Table.ErrorEvent;
+
+        return Table.NullEvent;
     }
 
     // PersonID
@@ -96,18 +99,19 @@ public class CSVWriteRead : MonoBehaviour
     // Pos(x,y,z)
     // Rot(x,y,z)
     // Vel(x,y,z)
-    void Save(string[] rowData) {
+    void Save(string[] rowData, Table table) {
 
         string delimiter = ",";
-        string filePath = getPath();
+        string filePath = getPath(table);
 
         File.AppendAllText(filePath, string.Join(delimiter, rowData) + ",\n");
     }
 
     // Following method is used to retrive the relative path as device platform
-    private string getPath(){
+    private string getPath(Table table)
+    {
         #if UNITY_EDITOR
-        return paths[(int)currentWriteTable - 1];
+        return paths[(int)table - 1];
         #elif UNITY_ANDROID
         return Application.persistentDataPath+"Saved_data.csv";
         #elif UNITY_IPHONE
