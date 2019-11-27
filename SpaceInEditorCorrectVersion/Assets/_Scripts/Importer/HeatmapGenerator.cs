@@ -5,6 +5,8 @@ using UnityEngine;
 public class HeatmapGenerator : MonoBehaviour
 {
     public CSVRead dataContainer;
+    public GameObject heatmapPlane;
+
     bool heatmapGenerated = false;
 
     Vector2 mapSize;
@@ -55,7 +57,21 @@ public class HeatmapGenerator : MonoBehaviour
             }
 
             // Instanciate squares with adequate size for the square size and the right pos
-            Debug.Log(heatmap);
+            for (int i = 0; i < heatmapSize.x; i++)
+                for (int j = 0; j < heatmapSize.y; j++)
+                {
+                    int eventsAmount = heatmap[i, j];
+
+                    Vector3 instantiatePosition = new Vector3(squareSize / 2 + squareSize * i, 10, squareSize / 2 + squareSize * j);
+
+                    if (eventsAmount == 0) continue;
+
+                    GameObject plane = Instantiate(heatmapPlane, instantiatePosition, Quaternion.identity);
+                    // Set scale of squareSize: The plane is 10 unites long with a 1 scale, so in order to have 1:1 scale we need to multiply by 0.1
+                    plane.transform.localScale = new Vector3(0.1f * squareSize, 1, 0.1f * squareSize); //
+
+                    // Modify color of plane depending on "eventsAmount"
+                }
 
         }
         
