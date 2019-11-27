@@ -31,13 +31,7 @@ public class CSVRead : MonoBehaviour
         ReadRoundEndEvent();
         ReadErrorEvent();
 
-        isFilled = true;
-
-        Debug.Log(arrErrorEvents.Length + " = ErrorEvents ");
-        Debug.Log(arrPositionEvents.Length + " = PositionEvents ");
-        Debug.Log(arrSesionEvents.Length + " = SessionEvents ");
-        Debug.Log(arrHitEvents.Length + " = HitEvents ");
-        Debug.Log(arrRoundEndEvents.Length + " = RoundEndEvents");       
+        isFilled = true;   
     }
     void ReadPositionEvent()
     {

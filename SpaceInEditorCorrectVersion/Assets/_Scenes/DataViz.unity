@@ -1477,7 +1477,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dataContainer: {fileID: 2066103504}
-  heatmapPlane: {fileID: 6438986627940870119, guid: dd5f154450d81ae4480d837e67cb58a9,
+  heatmapPlaneTemplate: {fileID: 6438986627940870119, guid: dd5f154450d81ae4480d837e67cb58a9,
     type: 3}
 --- !u!1001 &2105982795
 PrefabInstance:

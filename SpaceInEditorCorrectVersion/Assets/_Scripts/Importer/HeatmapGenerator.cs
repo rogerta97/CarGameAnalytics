@@ -5,7 +5,7 @@ using UnityEngine;
 public class HeatmapGenerator : MonoBehaviour
 {
     public CSVRead dataContainer;
-    public GameObject heatmapPlane;
+    public GameObject heatmapPlaneTemplate;
 
     bool heatmapGenerated = false;
 
@@ -56,6 +56,21 @@ public class HeatmapGenerator : MonoBehaviour
                 heatmap[index_x, index_y]++;
             }
 
+            // Calculate double the avarage as maximum color gradient
+            int doubleAvarage = 0;
+
+            int totalEvents = 0;
+            int validSquares = 0;
+            for (int i = 0; i < heatmapSize.x; i++)
+                for (int j = 0; j < heatmapSize.y; j++)
+                {
+                    totalEvents += heatmap[i, j];
+                    if (heatmap[i, j] != 0) validSquares++;
+                }
+
+
+            doubleAvarage = (totalEvents / validSquares) * 2;
+
             // Instanciate squares with adequate size for the square size and the right pos
             for (int i = 0; i < heatmapSize.x; i++)
                 for (int j = 0; j < heatmapSize.y; j++)
@@ -66,11 +81,11 @@ public class HeatmapGenerator : MonoBehaviour
 
                     if (eventsAmount == 0) continue;
 
-                    GameObject plane = Instantiate(heatmapPlane, instantiatePosition, Quaternion.identity);
+                    GameObject plane = Instantiate(heatmapPlaneTemplate, instantiatePosition, Quaternion.identity);
                     // Set scale of squareSize: The plane is 10 unites long with a 1 scale, so in order to have 1:1 scale we need to multiply by 0.1
                     plane.transform.localScale = new Vector3(0.1f * squareSize, 1, 0.1f * squareSize); //
-
-                    // Modify color of plane depending on "eventsAmount"
+                    // Modify red color of plane depending on "eventsAmount"
+                    plane.GetComponent<MeshRenderer>().material.color = new Color(eventsAmount / doubleAvarage, 0, 0, 1);
                 }
 
         }
