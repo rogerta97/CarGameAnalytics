@@ -91,13 +91,13 @@ public class HeatmapGenerator : MonoBehaviour
                 }
 
             //  If a cell has double the avarage events, it is a very populated cell, so it is the 100% of the color gradient.
-            int doubleAvarage = (totalEvents / validSquares) * 2;
+            float doubleAvarage = (totalEvents / validSquares) * 2;
 
             // Instanciate squares with adequate size for the square size and the right pos
             for (int i = 0; i < heatmapSize.x; i++)
                 for (int j = 0; j < heatmapSize.y; j++)
                 {
-                    int eventsAmount = heatmap[i, j];
+                    float eventsAmount = heatmap[i, j];
 
                     Vector3 instantiatePosition = new Vector3(squareSize / 2 + squareSize * i, 10, squareSize / 2 + squareSize * j);
 
