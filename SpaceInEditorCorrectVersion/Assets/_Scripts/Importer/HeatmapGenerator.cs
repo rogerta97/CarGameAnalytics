@@ -68,21 +68,21 @@ public class HeatmapGenerator : MonoBehaviour
             // Fill bidimensional array with amount of position events
             foreach(PositionEventData pos in posArray)
             {
-                int index_x = (int)((pos.posX / mapSize.x) * heatmapSize.x);
-                int index_y = (int)((pos.posZ / mapSize.y) * heatmapSize.y);
+                uint index_x = (uint)((pos.posX / mapSize.x) * heatmapSize.x);
+                uint index_y = (uint)((pos.posZ / mapSize.y) * heatmapSize.y);
 
                 // Extreme cases
-                if (index_x >= heatmapSize.x) index_x = heatmapSize.x - 1;
-                if (index_y >= heatmapSize.y) index_y = heatmapSize.x - 1;
+                if (index_x >= heatmapSize.x) index_x = (uint)heatmapSize.x - 1;
+                if (index_y >= heatmapSize.y) index_y = (uint)heatmapSize.x - 1;
 
                 heatmap[index_x, index_y]++;
             }
 
             // Calculate double the avarage as maximum color gradient
-            int doubleAvarage = 0;
 
             int totalEvents = 0;
             int validSquares = 0;
+
             for (int i = 0; i < heatmapSize.x; i++)
                 for (int j = 0; j < heatmapSize.y; j++)
                 {
@@ -90,8 +90,8 @@ public class HeatmapGenerator : MonoBehaviour
                     if (heatmap[i, j] != 0) validSquares++;
                 }
 
-
-            doubleAvarage = (totalEvents / validSquares) * 2;
+            //  If a cell has double the avarage events, it is a very populated cell, so it is the 100% of the color gradient.
+            int doubleAvarage = (totalEvents / validSquares) * 2;
 
             // Instanciate squares with adequate size for the square size and the right pos
             for (int i = 0; i < heatmapSize.x; i++)
