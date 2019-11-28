@@ -7,6 +7,7 @@ TagManager:
   - Round
   - Obstacle
   - Fall
+  - ColliderControll
   layers:
   - Default
   - TransparentFX

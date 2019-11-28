@@ -41,12 +41,13 @@ public class CarEventHandler : MonoBehaviour
     {
         object newEventData = new EventData();
 
-        if (other.gameObject.CompareTag("Round"))
+        if (other.gameObject.CompareTag("Round")); 
         {
             SessionController.Instance.AddRound();
             SessionController.Instance.ResetTimer();
 
             newEventData = SessionController.Instance.BuildEventData(carController, CarEventType.round_end);
+            Debug.Log("Add Round"); 
         }
 
         if (other.gameObject.CompareTag("Fall"))

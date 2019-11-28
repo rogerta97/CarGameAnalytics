@@ -52,7 +52,7 @@ public class PathGenerator : MonoBehaviour
 
     public void GeneratePath()
     {
-        if (arrowsInMap.Count < 0)      
+        if (arrowsInMap.Count > 0)      
             CleanArrowsInMap();
         
         PositionEventData[] posArray = dataContainer.arrPositionEvents;
@@ -86,7 +86,7 @@ public class PathGenerator : MonoBehaviour
     Color GetColorFromArrowsDistance(GameObject currentArrow, GameObject prevArrow)
     {
         //Hardcoded max distance value 
-        float maxDistance = 1.0f;
+        float maxDistance = 1.5f;
 
         // Sanity Check 
         if (currentArrow == null || prevArrow == null)
