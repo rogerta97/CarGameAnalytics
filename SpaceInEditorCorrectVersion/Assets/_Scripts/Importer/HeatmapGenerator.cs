@@ -6,6 +6,7 @@ public class HeatmapGenerator : MonoBehaviour
 {
     public CSVRead dataContainer;
     public GameObject heatmapPlaneTemplate;
+    public GameObject heatmapContainer;
 
     bool heatmapGenerated = false;
     // Variables to change in order to change heatmap
@@ -57,59 +58,68 @@ public class HeatmapGenerator : MonoBehaviour
 
     }
 
+    public void CreateHeatmap()
+    {
+        // Clear all the childs
+        foreach (Transform childTransform in heatmapContainer.transform)
+            Destroy(childTransform.gameObject);
+
+        PositionEventData[] posArray = dataContainer.arrPositionEvents;
+
+        // Fill bidimensional array with amount of position events
+        foreach (PositionEventData pos in posArray)
+        {
+            uint index_x = (uint)((pos.posX / mapSize.x) * heatmapSize.x);
+            uint index_y = (uint)((pos.posZ / mapSize.y) * heatmapSize.y);
+
+            // Extreme cases
+            if (index_x >= heatmapSize.x) index_x = (uint)heatmapSize.x - 1;
+            if (index_y >= heatmapSize.y) index_y = (uint)heatmapSize.x - 1;
+
+            heatmap[index_x, index_y]++;
+        }
+
+        // Calculate double the avarage as maximum color gradient
+
+        int totalEvents = 0;
+        int validSquares = 0;
+
+        for (int i = 0; i < heatmapSize.x; i++)
+            for (int j = 0; j < heatmapSize.y; j++)
+            {
+                totalEvents += heatmap[i, j];
+                if (heatmap[i, j] != 0) validSquares++;
+            }
+
+        //  If a cell has double the avarage events, it is a very populated cell, so it is the 100% of the color gradient.
+        float doubleAvarage = (totalEvents / validSquares) * 2;
+
+        // Instanciate squares with adequate size for the square size and the right pos
+        for (int i = 0; i < heatmapSize.x; i++)
+            for (int j = 0; j < heatmapSize.y; j++)
+            {
+                float eventsAmount = heatmap[i, j];
+
+                Vector3 instantiatePosition = new Vector3(squareSize / 2 + squareSize * i, 10, squareSize / 2 + squareSize * j);
+
+                if (eventsAmount == 0) continue;
+
+                GameObject plane = Instantiate(heatmapPlaneTemplate, instantiatePosition, Quaternion.identity);
+                plane.transform.parent = heatmapContainer.transform;
+                // Set scale of squareSize: The plane is 10 unites long with a 1 scale, so in order to have 1:1 scale we need to multiply by 0.1
+                plane.transform.localScale = new Vector3(0.1f * squareSize, 1, 0.1f * squareSize); //
+                                                                                                   // Modify red color of plane depending on "eventsAmount"
+                plane.GetComponent<MeshRenderer>().material.color = gradient.Evaluate(eventsAmount / doubleAvarage);
+            }
+
+    }
     // Update is called once per frame
     void Update()
     {
         if (dataContainer.isFilled && !heatmapGenerated)
         {
             heatmapGenerated = true;
-            PositionEventData[] posArray = dataContainer.arrPositionEvents;
-
-            // Fill bidimensional array with amount of position events
-            foreach(PositionEventData pos in posArray)
-            {
-                uint index_x = (uint)((pos.posX / mapSize.x) * heatmapSize.x);
-                uint index_y = (uint)((pos.posZ / mapSize.y) * heatmapSize.y);
-
-                // Extreme cases
-                if (index_x >= heatmapSize.x) index_x = (uint)heatmapSize.x - 1;
-                if (index_y >= heatmapSize.y) index_y = (uint)heatmapSize.x - 1;
-
-                heatmap[index_x, index_y]++;
-            }
-
-            // Calculate double the avarage as maximum color gradient
-
-            int totalEvents = 0;
-            int validSquares = 0;
-
-            for (int i = 0; i < heatmapSize.x; i++)
-                for (int j = 0; j < heatmapSize.y; j++)
-                {
-                    totalEvents += heatmap[i, j];
-                    if (heatmap[i, j] != 0) validSquares++;
-                }
-
-            //  If a cell has double the avarage events, it is a very populated cell, so it is the 100% of the color gradient.
-            float doubleAvarage = (totalEvents / validSquares) * 2;
-
-            // Instanciate squares with adequate size for the square size and the right pos
-            for (int i = 0; i < heatmapSize.x; i++)
-                for (int j = 0; j < heatmapSize.y; j++)
-                {
-                    float eventsAmount = heatmap[i, j];
-
-                    Vector3 instantiatePosition = new Vector3(squareSize / 2 + squareSize * i, 10, squareSize / 2 + squareSize * j);
-
-                    if (eventsAmount == 0) continue;
-
-                    GameObject plane = Instantiate(heatmapPlaneTemplate, instantiatePosition, Quaternion.identity);
-                    // Set scale of squareSize: The plane is 10 unites long with a 1 scale, so in order to have 1:1 scale we need to multiply by 0.1
-                    plane.transform.localScale = new Vector3(0.1f * squareSize, 1, 0.1f * squareSize); //
-                    // Modify red color of plane depending on "eventsAmount"
-                    plane.GetComponent<MeshRenderer>().material.color = gradient.Evaluate(eventsAmount / doubleAvarage);
-                }
-
+            CreateHeatmap();
         }
         
     }

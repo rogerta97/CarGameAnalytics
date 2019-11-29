@@ -25,13 +25,17 @@ public class CSVRead : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        ReadEvents();
+        isFilled = true;   
+    }
+
+    public void ReadEvents()
+    {
         ReadPositionEvent();
         ReadSessionEvent();
         ReadHitEvent();
         ReadRoundEndEvent();
         ReadErrorEvent();
-
-        isFilled = true;   
     }
     void ReadPositionEvent()
     {
