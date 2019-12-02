@@ -1364,7 +1364,18 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 211028069}
+        m_MethodName: TeleportToPosition
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2124118772}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 211028066}
         m_MethodName: OnStuckButtonClicked
         m_Mode: 1
         m_Arguments:
